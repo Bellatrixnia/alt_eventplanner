@@ -38,13 +38,44 @@ class CalendarController extends ActionController {
 
     /**
      *
+     * @throws \TYPO3\CMS\Extbase\Mvc\Exception\NoSuchArgumentException
      */
     public function showAction()
     {
-        $events = $this->eventRepository->findAll();
+
         $calender = new Calendar();
-        $currentMonth = $calender->renderMonth(2016,10);
+
+        /**
+         * Get the current month and year as a fallback
+         */
+        $currentYearAndMonth = $calender->getCurrentYearAndMonth();
+
+        /**
+         * Check if te user has given the according parameters
+         * If so, set them
+         */
+        if ($this->request->hasArgument('year') && $this->request->hasArgument('month')) {
+            $currentYearAndMonth = [
+                'year' => (int)$this->request->getArgument('year'),
+                'month' => (int)$this->request->getArgument('month'),
+            ];
+        }
+        /**
+         * Get the next and previous month
+         */
+        $this->view->assignMultiple(
+            [
+                'nextMonthAndYear' => $calender->getNextMonth($currentYearAndMonth['year'],$currentYearAndMonth['month']),
+                'prevMonthAndYear' => $calender->getPreviousMonth($currentYearAndMonth['year'],$currentYearAndMonth['month'])
+            ]
+        );
+
+
+        $monthToDisplay = $calender->renderMonth($currentYearAndMonth['year'],$currentYearAndMonth['month']);
+
+
+        $events = $this->eventRepository->findAll();
         $this->view->assign('events', $events);
-        $this->view->assign('calendar', $currentMonth);
+        $this->view->assign('calendar', $currentYearAndMonth);
     }
 }

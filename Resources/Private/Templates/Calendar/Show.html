@@ -1,2 +1,9 @@
+<f:if condition="{prevMonthAndYear.year}">
+	<f:link.action action="show" arguments="{year: prevMonthAndYear.year, month: prevMonthAndYear.month}">Back</f:link.action>
+</f:if>
+
+<f:if condition="{nextMonthAndYear.year}">
+	<f:link.action action="show" arguments="{year: nextMonthAndYear.year, month: nextMonthAndYear.month}">Forward</f:link.action>
+</f:if>
 <f:debug>{_all}</f:debug>
 <f:debug>{events.0}</f:debug>
