@@ -71,14 +71,22 @@ class Calendar
             $month = (int)$month - 1;
         }
 
-        if (
-            ($yearSwitch && $year < $currentMonthAndYear['year'])
-            ||
-            (!$yearSwitch && $month < $currentMonthAndYear['month'])
-        ) {
+        /**
+         * This needs test coverage
+         * for the time being we limit to 2015
+         */
+        if($year === 2015) {
             $year = null;
             $month = null;
         }
+//        if (
+//            ($yearSwitch && $year < $currentMonthAndYear['year'])
+//            ||
+//            (!$yearSwitch && $month < $currentMonthAndYear['month'])
+//        ) {
+//            $year = null;
+//            $month = null;
+//        }
 
         return [
             'year' => (int)$year,
