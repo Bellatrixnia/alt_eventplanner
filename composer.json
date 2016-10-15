@@ -1,0 +1,26 @@
+{
+	"name": "ALT/alt_eventplanner",
+	"description": "TYPO3 GmbH CRM Base extension. Contains Data Models and very basic functionality.",
+	"type": "typo3-cms-extension",
+	"license": "GPL-2.0+",
+	"authors": [
+		{
+			"name": "TYPO3 GmbH",
+			"role": "Developer",
+			"homepage": "http://typo3.com/"
+		}
+	],
+	"require": {
+		"typo3/cms-core": "~8"
+	},
+	"autoload": {
+		"psr-4": {
+			"ALT\\AltEventplanner\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"ALT\\AltEventplanner\\Tests": "Tests/"
+		}
+	}
+}
