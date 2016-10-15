@@ -17,6 +17,8 @@ CREATE TABLE tx_alteventplanner_domain_model_event (
   begin int(11) DEFAULT '0' NOT NULL,
   end int(11) DEFAULT '0' NOT NULL,
   minimum_volunteers int(11) DEFAULT '0' NOT NULL,
+  sign_ups int(11) DEFAULT '0' NOT NULL,
+
 
     PRIMARY KEY (uid),
     KEY parent (pid)

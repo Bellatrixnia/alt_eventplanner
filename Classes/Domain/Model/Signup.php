@@ -27,7 +27,6 @@ class Signup extends AbstractEntity {
 
     /**
      * @var \ALT\AltEventplanner\Domain\Model\Event
-     * @lazy
      */
     protected $eventUid;
 

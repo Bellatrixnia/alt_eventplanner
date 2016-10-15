@@ -60,7 +60,7 @@ class Event extends AbstractEntity {
         return $this->signUps;
     }
 
-    public function setSignups($signups)
+    public function setSignups(\TYPO3\CMS\Extbase\Persistence\ObjectStorage $signups)
     {
         $this->signUps = $signups;
     }
@@ -68,7 +68,7 @@ class Event extends AbstractEntity {
     /**
      * @param Signup $signup
      */
-    public function addSignUp(Signup $signup)
+    public function addSignUp(\ALT\AltEventplanner\Domain\Model\Signup $signup)
     {
         $this->signUps->attach($signup);
     }
@@ -76,7 +76,7 @@ class Event extends AbstractEntity {
     /**
      * @param Signup $signup
      */
-    public function removeSignup(Signup $signup)
+    public function removeSignup(\ALT\AltEventplanner\Domain\Model\Signup $signup)
     {
         $this->signUps->detach($signup);
     }

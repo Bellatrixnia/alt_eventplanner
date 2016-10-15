@@ -64,23 +64,22 @@ return array(
                 )
             )
         ],
-//        'incomes' => array(
-//            'label' => 'LLL:EXT:wmdb_budgetplan/Resources/Private/Language/locallang_tca.xlf:tx_wmdbbudgetplan_budgets.incomes',
-//            'config' => array(
-//                'type' => 'inline',
-//                'foreign_table' => 'tx_wmdbbudgetplan_incomes',
-//                'foreign_table_where' => 'AND tx_wmdbbudgetplan_incomes.pid = ###CURRENT_PID###',
-//                'MM' => 'tx_wmdbbudgetplan_budgets_incomes_mm',
-//                'appearance' => array(
-//                    'collapseAll' => true,
-//                    'expandSingle' => true,
-//                    'useSortable' => true,
-//                    'enabledControls' => true
-//                )
-//            )
-//        ),
+        'sign_ups' => array(
+            'label' => 'Anmeldungen',
+            'config' => array(
+                'type' => 'inline',
+                'foreign_table' => 'tx_alteventplanner_domain_model_signup',
+                'foreign_field' => 'event_uid',
+                'appearance' => array(
+                    'collapseAll' => true,
+                    'expandSingle' => true,
+                    'useSortable' => true,
+                    'enabledControls' => true
+                )
+            )
+        ),
     ),
     'types' => array(
-        '0' => array('showitem' => 'disable, title, begin, end, minimum_volunteers'),
+        '0' => array('showitem' => 'disable, title, begin, end, minimum_volunteers, sign_ups'),
     )
 );
