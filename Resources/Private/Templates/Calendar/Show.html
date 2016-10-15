@@ -1,3 +1,41 @@
+<style>
+	div.day {
+		border : 1px solid grey;
+		clear: both;
+		min-height : 20px;
+	}
+	div.weekend {
+		background-color: #8bb8f3;
+	}
+
+	.dateBlock {
+		width: 100px;
+	}
+	.table {
+		display: table;
+		width : 100%;
+	}
+	.table-row {
+		display: table-row;
+	}
+	.table-cell {
+		display : table-cell;
+		padding : 3px;
+	}
+	.no-signups {
+		background-color : #a85a00;
+	}
+	.needs-more-signups {
+		background-color: #fbcb09;
+	}
+	.has-signups {
+		background-color: #00cc00;
+	}
+	.signup-link {
+		display:block;
+	}
+</style>
+
 <f:if condition="{prevMonthAndYear.year}">
 	<f:link.action action="show" arguments="{year: prevMonthAndYear.year, month: prevMonthAndYear.month}">Back</f:link.action>
 </f:if>
@@ -5,5 +43,28 @@
 <f:if condition="{nextMonthAndYear.year}">
 	<f:link.action action="show" arguments="{year: nextMonthAndYear.year, month: nextMonthAndYear.month}">Forward</f:link.action>
 </f:if>
-<f:debug>{_all}</f:debug>
-<f:debug>{events.0}</f:debug>
+
+<h3>{monthToDisplay.month}</h3>
+<div class="table">
+	<f:for each="{monthToDisplay.days}" as="day">
+		<div class="table-row day{day.cssInfo}">
+			<div class="dateBlock table-cell">{day.day}</div>
+			<div class="events table-cell">
+				<f:for each="{day.events}" as="event">
+					<div class="event">
+						<f:security.ifAuthenticated>
+							<f:then>
+								<f:link.action action="signup" class="signup-link {event.status}" arguments="{event: event.uid}">
+									{event.title}
+								</f:link.action>
+							</f:then>
+							<f:else>
+								{event.title}
+							</f:else>
+						</f:security.ifAuthenticated>
+					</div>
+				</f:for>
+			</div>
+		</div>
+	</f:for>
+</div>

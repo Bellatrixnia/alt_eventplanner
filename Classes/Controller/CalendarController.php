@@ -71,11 +71,15 @@ class CalendarController extends ActionController {
         );
 
 
-        $monthToDisplay = $calender->renderMonth($currentYearAndMonth['year'],$currentYearAndMonth['month']);
+        $events = $this->eventRepository->findByMonthAndYear($currentYearAndMonth['year'],$currentYearAndMonth['month']);
+        $monthToDisplay = $calender->renderMonth($currentYearAndMonth['year'],$currentYearAndMonth['month'], $events);
 
-
-        $events = $this->eventRepository->findAll();
-        $this->view->assign('events', $events);
         $this->view->assign('calendar', $currentYearAndMonth);
+        $this->view->assign('monthToDisplay', $monthToDisplay);
+    }
+
+    public function signupAction()
+    {
+
     }
 }

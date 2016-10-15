@@ -4,12 +4,13 @@ class Calendar
 {
 
     /**
-     * @param int $year
-     * @param int $month
+     * @param int  $year
+     * @param int  $month
+     * @param null $events
      *
      * @return string
      */
-    public function renderMonth(int $year = 2016, int $month = 1)
+    public function renderMonth(int $year = 2016, int $month = 1, $events = null)
     {
         $content = [];
         $daysInMonth = (int)date('t', mktime(0, 0, 0, $month, 1, $year));
@@ -26,6 +27,11 @@ class Calendar
                 'day' => $this->replaceLabels(date('d. D', mktime(0, 0, 0, $month, $day, $year))),
                 'cssInfo' => $addCss,
             ];
+
+            $content['days'][$dateIdent]['events'] = [];
+            if(array_key_exists($dateIdent, $events)) {
+                $content['days'][$dateIdent]['events'] = $events[$dateIdent];
+            }
             $day++;
         }
         return $content;

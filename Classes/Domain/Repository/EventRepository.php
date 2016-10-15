@@ -20,4 +20,37 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
   */
 class EventRepository extends Repository {
 
+    public function findByMonthAndYear($year, $month)
+    {
+
+        $out = [];
+        $start = mktime(0, 0, 0, (int)$month, 1, (int)$year);
+        $end = mktime(0, 0, 0, (int)$month, date('t', $start), (int)$year);
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd([
+                $query->greaterThanOrEqual('begin', $start),
+                $query->lessThanOrEqual('end', $end)
+            ]
+            )
+        );
+        $results = $query->execute(true);
+        foreach ($results as $index => $result) {
+            $dateIdent = date('Ynj', $result['begin']);
+            switch (true) {
+                case (int)$result['sign_ups'] === 0:
+                    $result['status'] = 'no-signups';
+                    break;
+                case (int)$result['sign_ups'] < (int)$result['minimum_volunteers']:
+                    $result['status'] = 'needs-more-signups';
+                    break;
+                case (int)$result['sign_ups'] >= (int)$result['minimum_volunteers']:
+                    $result['status'] = 'has-signups';
+                    break;
+            }
+            $out[$dateIdent][] = $result;
+        }
+        return $out;
+    }
+
 }
