@@ -14,10 +14,4 @@ call_user_func(function () {
         'Calendar',
         'Calendar'
     );
-
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::registerPlugin(
-        'ALT.AltEventplanner',
-        'Signup',
-        'Signup'
-    );
 });

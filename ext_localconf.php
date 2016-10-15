@@ -12,18 +12,7 @@ call_user_func(function () {
         'ALT.AltEventplanner',
         'Calendar',
         [
-            'Calendar' => 'show',
-        ]
-    );
-
-    \TYPO3\CMS\Extbase\Utility\ExtensionUtility::configurePlugin(
-        'ALT.AltEventplanner',
-        'Signup',
-        [
-            'Signup' => 'form,signup',
-        ],
-        [
-            'Signup' => 'form',
+            'Calendar' => 'show, signup',
         ]
     );
 
