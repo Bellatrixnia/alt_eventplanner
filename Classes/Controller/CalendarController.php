@@ -13,9 +13,13 @@ namespace ALT\AltEventplanner\Controller;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use ALT\AltEventplanner\Domain\Model\Event;
+use ALT\AltEventplanner\Domain\Model\Signup;
 use ALT\AltEventplanner\Domain\Repository\EventRepository;
+use ALT\AltEventplanner\Domain\Repository\SignupRepository;
 use ALT\AltEventplanner\Service\Calendar;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
+use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
 /**
   * Display events in calendar design
@@ -29,11 +33,37 @@ class CalendarController extends ActionController {
     protected $eventRepository;
 
     /**
+     * @var SignupRepository
+     */
+    protected $signupRepository;
+
+    /**
+     * @var \TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager
+     */
+    protected $persistenceManager;
+
+    /**
      * @param EventRepository $eventRepository
      */
     public function injectEventRepository(EventRepository $eventRepository)
     {
         $this->eventRepository = $eventRepository;
+    }
+
+    /**
+     * @param PersistenceManager $persistenceManager
+     */
+    public function injectPersistenceManager(PersistenceManager $persistenceManager)
+    {
+        $this->persistenceManager = $persistenceManager;
+    }
+
+    /**
+     * @param SignupRepository $signupRepository
+     */
+    public function injectSignupRepository(SignupRepository $signupRepository)
+    {
+        $this->signupRepository = $signupRepository;
     }
 
     /**
@@ -80,6 +110,26 @@ class CalendarController extends ActionController {
 
     public function signupAction()
     {
+        $event = null;
+        if ($this->request->hasArgument('event')) {
+            /** @var Event $event */
+            $event = $this->eventRepository->findByUid($this->request->getArgument('event'));
+        }
+        /** @var Signup $signUp */
+        $signUp = $this->signupRepository->findByUserAndEvent($event, $GLOBALS['TSFE']->fe_user->user['uid']);
+        if($signUp === null) {
+            $signUp = $this->objectManager->get(Signup::class);
+            $signUp->setEventUid($event);
+        }
+        $this->view->assign('signUp', $signUp);
+    }
 
+    public function saveAction(Signup $signUp)
+    {
+        $signUp->setFrontenduserUid($GLOBALS['TSFE']->fe_user->user['uid']);
+        $event = $signUp->getEventUid();
+        $event->addSignUp($signUp);
+        $this->eventRepository->update($event);
+        $this->redirect('show');
     }
 }

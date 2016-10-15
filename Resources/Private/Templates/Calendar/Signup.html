@@ -1,0 +1,8 @@
+<f:form action="save" name="signup" object="{signup}">
+<h2>Anmeldung für {signup.eventUid.title}</h2>
+	<f:form.radio property="signupType" value="1" /> Ja, ich helfe auf jeden Fall<br>
+	<f:form.radio property="signupType" value="2" /> Wenn noch Hilfe gebraucht wird, ruft mich bitte an<br>
+	<f:form.radio property="signupType" value="3" /> Nein, ich helfe auf keinen Fall<br>
+	<f:form.hidden property="eventUid" value="{signup.eventUid}" />
+	<f:form.submit value="Absenden" />
+</f:form>

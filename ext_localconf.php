@@ -12,7 +12,10 @@ call_user_func(function () {
         'ALT.AltEventplanner',
         'Calendar',
         [
-            'Calendar' => 'show, signup',
+            'Calendar' => 'show, signup, save',
+        ],
+        [
+            'Calendar' => 'signup, save'
         ]
     );
 

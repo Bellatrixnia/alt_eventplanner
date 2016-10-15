@@ -13,6 +13,7 @@ namespace ALT\AltEventplanner\Domain\Repository;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use ALT\AltEventplanner\Domain\Model\Event;
 use TYPO3\CMS\Extbase\Persistence\Repository;
 
 /**
@@ -20,4 +21,17 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
   */
 class SignupRepository extends Repository {
 
+    public function findByUserAndEvent(Event $event, $userUid)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                [
+                    $query->equals('frontenduser_uid', $userUid),
+                    $query->equals('event_uid', $event->getUid())
+                ]
+            )
+        );
+        return $query->execute()->getFirst();
+    }
 }

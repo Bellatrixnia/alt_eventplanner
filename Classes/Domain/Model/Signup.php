@@ -34,4 +34,54 @@ class Signup extends AbstractEntity {
      * @var integer
      */
     protected $signupType;
+
+    /**
+     * @return int
+     */
+    public function getFrontenduserUid()
+    {
+        return $this->frontenduserUid;
+    }
+
+    /**
+     * @param int $frontenduserUid
+     */
+    public function setFrontenduserUid($frontenduserUid)
+    {
+        $this->frontenduserUid = $frontenduserUid;
+    }
+
+    /**
+     * @return Event
+     */
+    public function getEventUid()
+    {
+        return $this->eventUid;
+    }
+
+    /**
+     * @param Event $eventUid
+     */
+    public function setEventUid($eventUid)
+    {
+        $this->eventUid = $eventUid;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSignupType()
+    {
+        return $this->signupType;
+    }
+
+    /**
+     * @param int $signupType
+     */
+    public function setSignupType($signupType)
+    {
+        $this->signupType = $signupType;
+    }
+
+
 }
