@@ -121,7 +121,7 @@ class CalendarController extends ActionController {
             $signUp = $this->objectManager->get(Signup::class);
             $signUp->setEventUid($event);
         }
-        $this->view->assign('signUp', $signUp);
+        $this->view->assign('signup', $signUp);
     }
 
     public function saveAction(Signup $signUp)

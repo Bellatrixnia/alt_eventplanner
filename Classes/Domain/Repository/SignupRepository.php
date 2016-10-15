@@ -34,4 +34,18 @@ class SignupRepository extends Repository {
         );
         return $query->execute()->getFirst();
     }
+
+    public function findActiveSignups($eventUid)
+    {
+        $query = $this->createQuery();
+        $query->matching(
+            $query->logicalAnd(
+                [
+                    $query->lessThan('signup_type', 3),
+                    $query->equals('event_uid', $eventUid)
+                ]
+            )
+        );
+        return $query->execute()->count();
+    }
 }

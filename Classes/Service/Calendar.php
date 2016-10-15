@@ -2,6 +2,26 @@
 namespace ALT\AltEventplanner\Service;
 class Calendar
 {
+    protected function isHoliday($dateIdent, $year)
+    {
+        $fixedIdent = substr($dateIdent, 4,strlen($dateIdent));
+        $holidays[] = '11';
+        $holidays[] = '51';
+        $holidays[] = '103';
+        $holidays[] = '1225';
+        $holidays[] = '1226';
+        $aDay = 86400;
+        $easterSunday = easter_date($year);
+        $holidays[] = date('nj', $easterSunday - 2 * $aDay);
+        $holidays[] = date('nj', $easterSunday + 1 * $aDay);
+        $holidays[] = date('nj', $easterSunday + 39 * $aDay);
+        $holidays[] = date('nj', $easterSunday + 50 * $aDay);
+
+        if (in_array($fixedIdent, $holidays, false)) {
+            return true;
+        }
+        return false;
+    }
 
     /**
      * @param int  $year
@@ -19,8 +39,15 @@ class Calendar
         while ($day <= $daysInMonth) {
             $addCss = '';
             $dateIdent = $year.$month.$day;
-            if (date('N', mktime(0, 0, 0, $month, $day, $year)) > 5) {
-                $addCss = ' weekend';
+            if (date('N', mktime(0, 0, 0, $month, $day, $year)) === '6') {
+                $addCss = ' weekend-sat';
+            }
+            if (date('N', mktime(0, 0, 0, $month, $day, $year)) === '7') {
+                $addCss = ' weekend-sun';
+            }
+
+            if ($this->isHoliday($dateIdent, $year)) {
+                $addCss = ' holiday';
             }
 
             $content['days'][$dateIdent] = [

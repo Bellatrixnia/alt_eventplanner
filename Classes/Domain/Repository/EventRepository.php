@@ -20,6 +20,19 @@ use TYPO3\CMS\Extbase\Persistence\Repository;
   */
 class EventRepository extends Repository {
 
+    /**
+     * @var SignupRepository
+     */
+    protected $signupRepository;
+
+    /**
+     * @param SignupRepository $signupRepository
+     */
+    public function injectSignupRepository(SignupRepository $signupRepository)
+    {
+        $this->signupRepository = $signupRepository;
+    }
+
     public function findByMonthAndYear($year, $month)
     {
 
@@ -36,15 +49,16 @@ class EventRepository extends Repository {
         );
         $results = $query->execute(true);
         foreach ($results as $index => $result) {
+            $amountOfSignups = $this->signupRepository->findActiveSignups($result['uid']);
             $dateIdent = date('Ynj', $result['begin']);
             switch (true) {
-                case (int)$result['sign_ups'] === 0:
+                case (int)$amountOfSignups === 0:
                     $result['status'] = 'no-signups';
                     break;
-                case (int)$result['sign_ups'] < (int)$result['minimum_volunteers']:
+                case (int)$amountOfSignups < (int)$result['minimum_volunteers']:
                     $result['status'] = 'needs-more-signups';
                     break;
-                case (int)$result['sign_ups'] >= (int)$result['minimum_volunteers']:
+                case (int)$amountOfSignups >= (int)$result['minimum_volunteers']:
                     $result['status'] = 'has-signups';
                     break;
             }
