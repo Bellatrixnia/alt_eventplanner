@@ -14,7 +14,7 @@ class Calendar
         $content = [];
         $daysInMonth = (int)date('t', mktime(0, 0, 0, $month, 1, $year));
         $day = 1;
-        $content['month'] = date('F', mktime(0, 0, 0, $month, $day, $year));
+        $content['month'] = $this->replaceLabels(date('F', mktime(0, 0, 0, $month, $day, $year)));
         while ($day <= $daysInMonth) {
             $addCss = '';
             $dateIdent = $year.$month.$day;
@@ -23,7 +23,7 @@ class Calendar
             }
 
             $content['days'][$dateIdent] = [
-                'day' => date('d, D', mktime(0, 0, 0, $month, $day, $year)),
+                'day' => $this->replaceLabels(date('d. D', mktime(0, 0, 0, $month, $day, $year))),
                 'cssInfo' => $addCss,
             ];
             $day++;
@@ -92,5 +92,18 @@ class Calendar
             'year' => (int)$year,
             'month' => $month
         ];
+    }
+
+    private function replaceLabels($in)
+    {
+        $search = [
+            'January','February','March','April','May','June','July','August','September','October','November','December',
+            'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'
+        ];
+        $replace = [
+            'Januar', 'Februar', 'März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember',
+            'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'
+        ];
+        return str_replace($search, $replace, $in);
     }
 }
