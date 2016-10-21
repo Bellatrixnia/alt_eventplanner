@@ -1,21 +1,15 @@
 <style>
-	div.day {
-		border : 1px solid grey;
-		clear: both;
-		min-height : 20px;
-	}
-	div.weekend-sat {
-		background-color: #8bb8f3;
+	div.weekend-sat {  background-color: #cccccc;
 	}
 	div.weekend-sun {
-		background-color: #6378f3;
+		background-color: #b4b4b4;
 	}
 	div.holiday {
-		background-color: #5ef3f0;
+		background-color: #55f380;
 	}
 
 	.dateBlock {
-		width: 100px;
+		width: 50px;
 	}
 	.table {
 		display: table;
@@ -23,13 +17,15 @@
 	}
 	.table-row {
 		display: table-row;
+		border : 1px solid grey;
 	}
 	.table-cell {
 		display : table-cell;
 		padding : 3px;
+		border-bottom : 1px solid grey;
 	}
 	.no-signups {
-		background-color : #fa8993;
+		background-color : #fab2b3;
 	}
 	.needs-more-signups {
 		background-color: #fff77c;
@@ -39,15 +35,16 @@
 	}
 	.signup-link {
 		display:block;
+		padding: 3px;
 	}
 </style>
 
 <f:if condition="{prevMonthAndYear.year}">
-	<f:link.action action="show" arguments="{year: prevMonthAndYear.year, month: prevMonthAndYear.month}">Back</f:link.action>
+	<f:link.action action="show" arguments="{year: prevMonthAndYear.year, month: prevMonthAndYear.month}"><< vorheriger Monat</f:link.action>
 </f:if>
-
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <f:if condition="{nextMonthAndYear.year}">
-	<f:link.action action="show" arguments="{year: nextMonthAndYear.year, month: nextMonthAndYear.month}">Forward</f:link.action>
+	<f:link.action action="show" arguments="{year: nextMonthAndYear.year, month: nextMonthAndYear.month}">nächster Monat >></f:link.action>
 </f:if>
 
 <h3>{monthToDisplay.month}</h3>
