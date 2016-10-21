@@ -30,7 +30,7 @@ class Calendar
      *
      * @return string
      */
-    public function renderMonth(int $year = 2016, int $month = 1, $events = null)
+    public function renderMonth($year = 2016, $month = 1, $events = null)
     {
         $content = [];
         $daysInMonth = (int)date('t', mktime(0, 0, 0, $month, 1, $year));
