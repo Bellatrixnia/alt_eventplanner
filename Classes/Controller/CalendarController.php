@@ -18,6 +18,8 @@ use ALT\AltEventplanner\Domain\Model\Signup;
 use ALT\AltEventplanner\Domain\Repository\EventRepository;
 use ALT\AltEventplanner\Domain\Repository\SignupRepository;
 use ALT\AltEventplanner\Service\Calendar;
+use TYPO3\CMS\Core\Mail\MailMessage;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
@@ -126,10 +128,36 @@ class CalendarController extends ActionController {
 
     public function saveAction(Signup $signUp)
     {
-        $signUp->setFrontenduserUid($GLOBALS['TSFE']->fe_user->user['uid']);
         $event = $signUp->getEventUid();
         $event->addSignUp($signUp);
         $this->eventRepository->update($event);
+        $this->sendEmail($signUp);
         $this->redirect('show');
+    }
+
+    protected function sendEmail(Signup $signUp)
+    {
+        $signUpTypes = [
+            '1' => 'Ja, ich helfe auf jeden Fall',
+            '2' => 'Wenn noch Hilfe gebraucht wird, ruft mich bitte an',
+            '3' => 'Nein, ich helfe auf keinen Fall'
+        ];
+
+        $content = 'Hallo Altrich Team,
+
+es gibt eine Neuigkeit beim Termin: ' . $signUp->getEventUid()->getTitle() . '.
+
+' . $signUp->getFrontenduserUid()->getFirstName() . $signUp->getFrontenduserUid()->getLastName() . ' (' . $signUp->getFrontenduserUid()->getUsername() . ') hat folgendes geschrieben:
+' . $signUpTypes[$signUp->getSignupType()] . '
+        ';
+
+        /** @var MailMessage $mail */
+        $mail = GeneralUtility::makeInstance(MailMessage::class);
+        $mail
+            ->setSubject('An/Abmeldung beim Gemeindehaus')
+            ->setFrom('noreply@altrich.de')
+            ->setTo(['info@altrich.de'])
+            ->setBody($content)
+            ->send();
     }
 }

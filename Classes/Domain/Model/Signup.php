@@ -21,7 +21,7 @@ use TYPO3\CMS\Extbase\DomainObject\AbstractEntity;
 class Signup extends AbstractEntity {
 
     /**
-     * @var integer
+     * @var \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     protected $frontenduserUid;
 
@@ -36,7 +36,7 @@ class Signup extends AbstractEntity {
     protected $signupType;
 
     /**
-     * @return int
+     * @return \TYPO3\CMS\Extbase\Domain\Model\FrontendUser
      */
     public function getFrontenduserUid()
     {
@@ -44,7 +44,7 @@ class Signup extends AbstractEntity {
     }
 
     /**
-     * @param int $frontenduserUid
+     * @param \TYPO3\CMS\Extbase\Domain\Model\FrontendUser $frontenduserUid
      */
     public function setFrontenduserUid($frontenduserUid)
     {
