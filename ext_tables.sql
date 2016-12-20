@@ -14,10 +14,10 @@ CREATE TABLE tx_alteventplanner_domain_model_event (
     t3_origuid int(11) DEFAULT '0' NOT NULL,
 
     title varchar(255) DEFAULT '' NOT NULL,
-  begin int(11) DEFAULT '0' NOT NULL,
-  end int(11) DEFAULT '0' NOT NULL,
-  minimum_volunteers int(11) DEFAULT '0' NOT NULL,
-  sign_ups int(11) DEFAULT '0' NOT NULL,
+    begin int(11) DEFAULT '0' NOT NULL,
+    end int(11) DEFAULT '0' NOT NULL,
+    minimum_volunteers int(11) DEFAULT '0' NOT NULL,
+    sign_ups int(11) DEFAULT '0' NOT NULL,
 
 
     PRIMARY KEY (uid),
