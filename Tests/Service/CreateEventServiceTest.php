@@ -467,4 +467,21 @@ class CreateEventServiceTest extends \PHPUnit_Framework_TestCase
         );
 
     }
+
+    /**
+     * @test
+     */
+    public function testGetEndDateFromStartDateAndEventLength()
+    {
+        $startDate = new \DateTime('2016/07/01T09:00:00');
+        $eventLength = new \DateInterval('P0DT2H');
+
+        $expected = new \DateTime('2016/07/01T11:00:00');
+
+        $actual = $this->createEventService->getEventEnd($startDate, $eventLength);
+
+        self::assertEquals($expected, $actual);
+
+    }
+
 }

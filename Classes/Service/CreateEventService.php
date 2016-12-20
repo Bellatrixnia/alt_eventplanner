@@ -9,8 +9,6 @@
 namespace ALT\AltEventplanner\Service;
 
 
-use ALT\AltEventplanner\Tests\Service\CreateEventServiceTest;
-
 class CreateEventService
 {
 
@@ -62,19 +60,16 @@ class CreateEventService
 
         // Aufbauen des Datumsbereiches (http://php.net/manual/de/class.dateperiod.php)
         $dateRangeStart = new \DatePeriod($dateTimeStart, $dateInterval, $dateTimeFinish);
-        $dateRangeEnd = new \DatePeriod($dateTimeEnd, $dateInterval, $dateTimeFinish);
+
+        $eventLength = $this->getEventLength($dateTimeStart, $dateTimeEnd);
 
         $returnValues = [];
         // Alle Daten in ein Array speichern
-        $i = 0;
         foreach ($dateRangeStart as $date) {
-            $returnValues[$i]['start'] = $date;
-            $i++;
-        }
-        $c = 0;
-        foreach ($dateRangeEnd as $item) {
-            $returnValues[$c]['end'] = $item;
-            $c++;
+            $returnValues[] = [
+                'start' => $date,
+                'end' => $this->getEventEnd($date, $eventLength)
+            ];
         }
         return $returnValues;
     }
@@ -88,5 +83,17 @@ class CreateEventService
     {
         $eventLength = $eventBegin->diff($eventEnd);
         return $eventLength;
+    }
+
+    /**
+     * @param \DateTime $eventBegin Uhrzeit und Datum, an dem ein Event beginnt
+     * @param \DateInterval $eventLength Zeitspanne zum Ende des Events
+     * @return \DateTime
+     */
+    public function getEventEnd(\DateTime $eventBegin, \DateInterval $eventLength)
+    {
+        $eventEnd = clone $eventBegin;
+        $eventEnd->add($eventLength);
+        return $eventEnd;
     }
 }
