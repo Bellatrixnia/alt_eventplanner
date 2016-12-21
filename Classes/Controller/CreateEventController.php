@@ -13,8 +13,10 @@ namespace ALT\AltEventplanner\Controller;
  *
  * The TYPO3 project - inspiring people to share!
  */
+use ALT\AltEventplanner\Domain\Model\Event;
 use ALT\AltEventplanner\Domain\Repository\EventRepository;
 use ALT\AltEventplanner\Domain\Repository\SignupRepository;
+use ALT\AltEventplanner\Service\CreateEventService;
 use TYPO3\CMS\Backend\View\BackendTemplateView;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -77,8 +79,48 @@ class CreateEventController extends ActionController {
     }
 
     public function submitAction(){
-        $postVars = $_POST;
-        $this->view->assign('postVariablen', $postVars);
-        $this->view->assign('getVariablen', $_GET);
+
+        $arguments = $this->request->getArguments();
+
+        $eventTitle = $arguments['title'];
+        $eventStart = $arguments['startDate'];
+        /**
+         * String aus $eventStart in ein DateTime-Objekt konvertieren
+         */
+        $eventStartDT = \DateTime::createFromFormat('H:i d-m-Y', $eventStart, new \DateTimeZone('Europe/Berlin'));
+
+        $eventEnd = $arguments['endDate'];
+        /**
+         * String aus $eventEnd in ein Datetime-Objekt konvertieren
+         */
+        $eventEndDT = \DateTime::createFromFormat('H:i d-m-Y', $eventEnd, new \DateTimeZone('Europe/Berlin'));
+
+        $eventRepetition = $arguments['repetition'];
+
+        $eventFinish = $arguments['finishDate'];
+        /**
+         * String aus $eventFinish in ein Datetime-Objekt konvertieren
+         */
+        $eventFinishDT = \DateTime::createFromFormat('d-m-Y', $eventFinish, new \DateTimeZone('Europe/Berlin'));
+
+        $eventVolunteers = (int) $arguments['minimum_volunteers'];
+
+
+        /** @var CreateEventService $eventService */
+        $eventService = GeneralUtility::makeInstance(CreateEventService::class);
+        $repetitionEvents = $eventService->getDates($eventStartDT, $eventEndDT, $eventFinishDT, $eventRepetition);
+
+        foreach ($repetitionEvents as $index => $repetitionEvent) {
+            /** @var Event $eventToPersist */
+            $eventToPersist = GeneralUtility::makeInstance(Event::class);
+            $eventToPersist->setTitle($eventTitle);
+            $eventToPersist->setBegin($repetitionEvent['start']);
+            $eventToPersist->setEnd($repetitionEvent['end']);
+            $eventToPersist->setMinimumVolunteers($eventVolunteers);
+            $this->eventRepository->add($eventToPersist);
+            $this->persistenceManager->persistAll();
+        }
+        $this->view->assign('events', $repetitionEvents);
+        $this->view->assign('title', $eventTitle);
     }
 }
