@@ -33,7 +33,7 @@ if (TYPO3_MODE === 'BE') {
         ),
         array(
             'access' => '',
-            'icon' => 'EXT:alt_eventplanner/Resources/Public/Icons/event.svg',
+            'icon' => 'EXT:alt_eventplanner/Resources/Public/Icons/event_backendmodul.svg',
             'labels' => 'LLL:EXT:alt_eventplanner/Resources/Private/Language/locallang_mod.xlf'
         )
     );
