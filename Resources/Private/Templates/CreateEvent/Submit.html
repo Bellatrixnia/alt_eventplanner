@@ -1,3 +1,21 @@
-<h1>Submit </h1>
+<h1>{events -> f:count()} Events erfolgreich angelegt</h1>
 
-<f:debug>{_all}</f:debug>
+<p>Es wurden die folgenden Events mit den Titel "<b>{title}</b>" angelegt: </p>
+
+
+<table class="table">
+    <tr>
+        <th>Start</th>
+        <th>Ende</th>
+    </tr>
+
+    <f:for each="{events}" as="event">
+        <tr>
+            <f:for each="{event}" as="details">
+                <td>
+                    <f:format.date format="d.m.Y - H:i">{details}</f:format.date>
+                </td>
+            </f:for>
+        </tr>
+    </f:for>
+</table>
