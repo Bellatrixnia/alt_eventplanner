@@ -319,7 +319,7 @@ class CreateEventServiceTest extends \PHPUnit_Framework_TestCase
         $startTime = null;
         $endTime = null;
         $finishTime = null;
-        $this->createEventService->getDates($startTime, $endTime, $finishTime, null);
+        $this->createEventService->getDates($startTime, $endTime, $finishTime, "weekly");
     }
 
     /**
@@ -332,7 +332,7 @@ class CreateEventServiceTest extends \PHPUnit_Framework_TestCase
         $startTime = new \DateTime('2014/08/12T08:00:00');
         $endTime = null;
         $finishTime = null;
-        $this->createEventService->getDates($startTime, $endTime, $finishTime, null);
+        $this->createEventService->getDates($startTime, $endTime, $finishTime, "weekly");
     }
 
     /**
@@ -345,13 +345,13 @@ class CreateEventServiceTest extends \PHPUnit_Framework_TestCase
         $startTime = new \DateTime('2014/08/12T08:00:00');
         $endTime = new \DateTime('2014/08/13T18:00:00');
         $finishTime = null;
-        $this->createEventService->getDates($startTime, $endTime, $finishTime, null);
+        $this->createEventService->getDates($startTime, $endTime, $finishTime, "weekly");
     }
 
     /**
      * @test
      * @expectedException \InvalidArgumentException
-     * @expectedExceptionCode 1482161667
+     * @expectedExceptionCode 1482242201
      */
     public function testInvalidRecurrenceDaysNullGiven()
     {
@@ -484,4 +484,61 @@ class CreateEventServiceTest extends \PHPUnit_Framework_TestCase
 
     }
 
+    public function testCorrectValueInRecurrenceDaysForWeekly()
+    {
+        $eventStart = new \DateTime('2016/12/21T09:00:00');
+        $eventEnd = new \DateTime('2016/12/21T16:30:00');
+        $eventFinish = new \DateTime('2016/12/31');
+        $repetition = "weekly";
+
+        $result = $this->createEventService->getDates($eventStart, $eventEnd, $eventFinish, $repetition);
+
+        self::assertEquals(
+            [
+                'start' => new \DateTime('2016/12/21T09:00:00'),
+                'end' => new \DateTime('2016/12/21T16:30')
+            ], $result[0]
+        );
+        self::assertEquals(
+            [
+                'start' => new \DateTime('2016/12/28T09:00:00'),
+                'end' => new \DateTime('2016/12/28T16:30:00')
+            ], $result[1]
+        );
+
+    }
+
+    public function testCorrectValueInRecurrenceDaysForBiWeekly()
+    {
+
+    }
+
+    public function testCorrectValueInRecurrenceDaysForMonthly()
+    {
+
+    }
+
+    /**
+     * @test
+     * @expectedException \InvalidArgumentException
+     * @expectedExceptionCode 1482242201
+     */
+    public function testRecurrenceDaysForIncorrectValues()
+    {
+        $eventBegin = new \DateTime('2016/12/20T15:00:00');
+        $eventEnd = new \DateTime('2016/12/20T16:30:00');
+        $eventFinish = new \DateTime('2016/12/31T23:59:00');
+        $recurrenceDays = "bla";
+
+        $result = $this->createEventService->getDates($eventBegin, $eventEnd, $eventFinish, $recurrenceDays);
+
+        self::assertEquals(
+            [
+                'start' => new \DateTime('2016/12/20T15:00:00'),
+                'end' => new \DateTime('2016/12/20T16:30:00')
+            ],
+            $result[0]
+        );
+
+    }
 }
