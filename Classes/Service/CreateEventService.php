@@ -24,6 +24,8 @@ class CreateEventService
             case 'monthly':
                 $recurrenceDays = 'P1M';
                 break;
+            default:
+                throw new \InvalidArgumentException("Die Auswahl für die Wiederholung im Feld 'Repetition' muss entweder 'weekly', 'bi-weekly' oder 'monthly' sein.", 1482242201);
         }
 
         /**
@@ -41,9 +43,6 @@ class CreateEventService
                 break;
         }
 
-        if (empty($recurrenceDays) || is_null($recurrenceDays)) {
-            throw new \InvalidArgumentException("Die Eingabe im Feld 'Repetition' darf nicht 'NULL' oder leer sein.", 1482161667);
-        }
 
         if ($dateTimeFinish < $dateTimeEnd) {
             throw new \InvalidArgumentException("Das 'Finishdate' muss nach dem 'Enddate' liegen.", 1482218218);
