@@ -1,13 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: janakienast
- * Date: 15.12.16
- * Time: 14:49
- */
-
 namespace ALT\AltEventplanner\Service;
-
 
 class CreateEventService
 {
@@ -53,8 +45,7 @@ class CreateEventService
         }
 
 
-        // Intervall-Objekt generieren (http://php.net/manual/de/class.dateinterval.php)
-        // (http://php.net/manual/de/dateinterval.construct.php)
+        // Intervall-Objekt generieren (http://php.net/manual/de/class.dateinterval.php) / (http://php.net/manual/de/dateinterval.construct.php)
         $dateInterval = new \DateInterval($recurrenceDays);
 
         // Aufbauen des Datumsbereiches (http://php.net/manual/de/class.dateperiod.php)

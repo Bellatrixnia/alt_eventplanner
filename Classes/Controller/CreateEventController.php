@@ -23,7 +23,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use TYPO3\CMS\Extbase\Persistence\Generic\PersistenceManager;
 
-
 /**
   * Display Form for Backend-Modules
   */
@@ -83,24 +82,25 @@ class CreateEventController extends ActionController {
         $arguments = $this->request->getArguments();
 
         $eventTitle = $arguments['title'];
-        $eventStart = $arguments['startDate'];
+
         /**
          * String aus $eventStart in ein DateTime-Objekt konvertieren
          */
+        $eventStart = $arguments['startDate'];
         $eventStartDT = \DateTime::createFromFormat('H:i d-m-Y', $eventStart, new \DateTimeZone('Europe/Berlin'));
 
-        $eventEnd = $arguments['endDate'];
         /**
          * String aus $eventEnd in ein Datetime-Objekt konvertieren
          */
+        $eventEnd = $arguments['endDate'];
         $eventEndDT = \DateTime::createFromFormat('H:i d-m-Y', $eventEnd, new \DateTimeZone('Europe/Berlin'));
 
         $eventRepetition = $arguments['repetition'];
 
-        $eventFinish = $arguments['finishDate'];
         /**
          * String aus $eventFinish in ein Datetime-Objekt konvertieren
          */
+        $eventFinish = $arguments['finishDate'];
         $eventFinishDT = \DateTime::createFromFormat('d-m-Y', $eventFinish, new \DateTimeZone('Europe/Berlin'));
 
         $eventVolunteers = (int) $arguments['minimum_volunteers'];

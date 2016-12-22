@@ -35,15 +35,14 @@ class EventRepository extends Repository {
 
     public function findByMonthAndYear($year, $month)
     {
-
         $out = [];
-        $start = mktime(0, 0, 0, (int)$month, 1, (int)$year);
-        $end = mktime(0, 0, 0, (int)$month, date('t', $start), (int)$year);
+        $start = gmmktime(0, 0, 0, (int)$month, 1, (int)$year);
+        $end = gmmktime(0, 0, 0, (int)$month, date('t', $start) + 1, (int)$year);
         $query = $this->createQuery();
         $query->matching(
             $query->logicalAnd([
                 $query->greaterThanOrEqual('begin', $start),
-                $query->lessThanOrEqual('end', $end)
+                $query->lessThanOrEqual('begin', $end)
             ]
             )
         );
