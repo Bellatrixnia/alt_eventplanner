@@ -35,6 +35,9 @@ class CreateEventService
                 break;
         }
 
+        if ($dateTimeFinish->diff($dateTimeStart)->format('%a') > 365) {
+            throw new \InvalidArgumentException('Ein Event darf sich nicht länger als ein Jahr wiederholen.', 1487006135);
+        }
 
         if ($dateTimeFinish < $dateTimeEnd) {
             throw new \InvalidArgumentException("Das 'Finishdate' muss nach dem 'Enddate' liegen.", 1482218218);
